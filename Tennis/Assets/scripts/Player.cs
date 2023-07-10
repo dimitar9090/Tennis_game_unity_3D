@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 {
     public Transform aimTarget;
     float speed = 3f;
+    float force = 13;
 
     bool hitting;
     void Start()
@@ -36,6 +37,15 @@ public class Player : MonoBehaviour
         if ((h != 0 || v != 0) && !hitting)
         {
             transform.Translate(new Vector3(h, 0, v) * speed * Time.deltaTime );
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Ball"))
+        {
+            Vector3 dir = aimTarget.position - transform.position;
+            other.GetComponent<Rigidbody>().velocity = dir.normalized * force + new Vector3(0, 6, 0);
         }
     }
 }
