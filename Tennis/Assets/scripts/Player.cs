@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
@@ -10,12 +11,15 @@ public class Player : MonoBehaviour
     float force = 13;
 
     bool hitting;
-    void Start()
-    {
-        
-    }
 
+    public Transform ball;
+
+    Animator animator;
     // Update is called once per frame
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
     void Update()
     {
         float h = Input.GetAxisRaw("Horizontal");
@@ -46,6 +50,14 @@ public class Player : MonoBehaviour
         {
             Vector3 dir = aimTarget.position - transform.position;
             other.GetComponent<Rigidbody>().velocity = dir.normalized * force + new Vector3(0, 6, 0);
+            
+            Vector3 ballDir = ball.position - transform.position;
+
+            if (ballDir.x >= 0)
+                animator.Play("forehand");
+            else
+                animator.Play("backhand");
+
         }
     }
 }
