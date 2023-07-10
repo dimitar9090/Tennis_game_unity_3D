@@ -15,10 +15,13 @@ public class Player : MonoBehaviour
     public Transform ball;
 
     Animator animator;
+
+    Vector3 aimTargetInitialPosition;
     // Update is called once per frame
     private void Start()
     {
         animator = GetComponent<Animator>();
+        aimTargetInitialPosition = aimTarget.position;
     }
     void Update()
     {
@@ -57,7 +60,8 @@ public class Player : MonoBehaviour
                 animator.Play("forehand");
             else
                 animator.Play("backhand");
-
         }
+
+        aimTarget.position = aimTargetInitialPosition;
     }
 }
