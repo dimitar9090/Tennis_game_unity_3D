@@ -34,7 +34,7 @@ public class bot : MonoBehaviour
         if (other.CompareTag("Ball"))
         {
             Vector3 dir = aimTarget.position - transform.position;
-            other.GetComponent<Rigidbody>().velocity = dir.normalized * force + new Vector3(0, 6, 0);
+            other.GetComponent<Rigidbody>().velocity = dir.normalized * force + new Vector3(0, 5, 0);
 
             Vector3 ballDir = ball.position - transform.position;
 
