@@ -17,11 +17,16 @@ public class Player : MonoBehaviour
     Animator animator;
 
     Vector3 aimTargetInitialPosition;
+
+    ShotManager shotManager;
+    Shot currentShot;
     // Update is called once per frame
     private void Start()
     {
         animator = GetComponent<Animator>();
         aimTargetInitialPosition = aimTarget.position;
+        shotManager = GetComponent<ShotManager>();
+        currentShot = shotManager.topSpin;
     }
     void Update()
     {
@@ -31,11 +36,20 @@ public class Player : MonoBehaviour
         if(   Input.GetKeyDown(KeyCode.F))
         {
             hitting = true;
+            currentShot = shotManager.topSpin;
         }else if (Input.GetKeyUp(KeyCode.F))
         {
             hitting = false;
         }
-
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            hitting = true;
+            currentShot = shotManager.flat;
+        }
+        else if (Input.GetKeyUp(KeyCode.E))
+        {
+            hitting = false;
+        }
         if (hitting)
         {
             aimTarget.Translate(new Vector3(h, 0, 0) * speed * 2 * Time.deltaTime);
@@ -52,7 +66,7 @@ public class Player : MonoBehaviour
         if (other.CompareTag("Ball"))
         {
             Vector3 dir = aimTarget.position - transform.position;
-            other.GetComponent<Rigidbody>().velocity = dir.normalized * force + new Vector3(0, 5, 0);
+            other.GetComponent<Rigidbody>().velocity = dir.normalized * currentShot.hitForce + new Vector3(0, currentShot.upForce, 0);
             
             Vector3 ballDir = ball.position - transform.position;
 
